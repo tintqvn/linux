@@ -1,9 +1,9 @@
 #!/bin/bash
 # Variables
-$php56-ver=5.6.38
-$php72-ver=7.2.12
-$mariadb-ver=10.3.10
-$nginx-ver=1.14.2
+php56_ver=5.6.38
+php72_ver=7.2.12
+mariadb_ver=10.3.10
+nginx_ver=1.14.2
 
 # Update and install require packet
 yum -y update
@@ -38,11 +38,11 @@ cd /data/sources
 
 # Download and build PHP 5 and 7
 # PHP 7
-wget http://php.net/distributions/php-$php72-ver.tar.gz
-wget http://php.net/distributions/php-$php56-ver.tar.gz
-tar -xvf php-$php56-ver.tar.gz
-tar -xvf php-$php72-ver.tar.gz
-cd php-$php72-ver
+wget http://php.net/distributions/php-$php72_ver.tar.gz
+wget http://php.net/distributions/php-$php56_ver.tar.gz
+tar -xvf php-$php56_ver.tar.gz
+tar -xvf php-$php72_ver.tar.gz
+cd php-$php72_ver
 cp /data/scripts/tmp/WebServer-master/PHP/build/setup_php.sh .
 sed -i "s/php/php72/g" setup_php.sh
 sh setup_php.sh && make && make install
@@ -56,7 +56,7 @@ sed -i "s/php56/php72/g" /lib/systemd/system/php72-fpm.service
 systemctl start php72-fpm
 systemctl enable php72-fpm
 # PHP 5
-cd ./.. && cd php-$php56-ver
+cd ./.. && cd php-$php56_ver
 cp /data/scripts/tmp/WebServer-master/PHP/build/setup_php.sh .
 sed -i "s/php/php56/g" setup_php.sh
 sh setup_php.sh && make && make install
@@ -68,9 +68,9 @@ systemctl enable php56-fpm
 
 # Download and build MariaDB
 cd /data/sources/
-wget http://ossm.utm.my/mariadb//mariadb-$mariadb-ver/source/mariadb-$mariadb-ver.tar.gz
-tar -xvf mariadb-$mariadb-ver.tar.gz
-cd mariadb-$mariadb-ver
+wget http://ossm.utm.my/mariadb//mariadb-$mariadb_ver/source/mariadb-$mariadb_ver.tar.gz
+tar -xvf mariadb-$mariadb_ver.tar.gz
+cd mariadb-$mariadb_ver
 cp /data/scripts/tmp/WebServer-master/MariaDB/Build/setup_mariadb.sh .
 sh setup_mariadb.sh && make && make install
 cd /data/webserver/mariadb/
@@ -84,11 +84,13 @@ chown -R mysql:root /data/webserver/mariadb/
 
 # Download and install Nginx
 cd /data/sources
-wget http://nginx.org/download/nginx-$nginx-ver.tar.gz
-tar -xvf nginx-$nginx-ver.tar.gz
-cd nginx-$nginx-ver
+wget http://nginx.org/download/nginx-$nginx_ver.tar.gz
+tar -xvf nginx-$nginx_ver.tar.gz
+cd nginx-$nginx_ver
 cp /data/scripts/tmp/WebServer-master/Nginx/Build/setup_nginx.sh .
 sh setup_nginx.sh && make & make install
 cp /data/scripts/tmp/WebServer-master/Nginx/Build/nginx_systemd.sh /lib/systemd/system/nginx.service
 systemctl start nginx
 systemctl enable nginx
+
+
