@@ -53,6 +53,7 @@ cd php-fpm.d/
 cp www.conf.default www.conf
 cp /data/scripts/tmp/WebServer-master/PHP/build/systemd.init /lib/systemd/system/php72-fpm.service
 sed -i "s/php56/php72/g" /lib/systemd/system/php72-fpm.service
+cp /data/webserver/php72/bin/* /usr/bin/
 systemctl start php72-fpm
 systemctl enable php72-fpm
 # PHP 5
@@ -80,7 +81,7 @@ chkconfig mariadb on
 ./scripts/mysql_install_db --user=mysql --basedir=/data/webserver/mariadb --datadir=/data/webserver/mariadb/data
 cp /data/scripts/tmp/WebServer-master/MariaDB/config/my.cnf .
 chown -R mysql:root /data/webserver/mariadb/
-
+cp /data/webserver/mariadb/bin/* /usr/bin/
 
 # Download and install Nginx
 cd /data/sources
@@ -88,9 +89,10 @@ wget http://nginx.org/download/nginx-$nginx_ver.tar.gz
 tar -xvf nginx-$nginx_ver.tar.gz
 cd nginx-$nginx_ver
 cp /data/scripts/tmp/WebServer-master/Nginx/Build/setup_nginx.sh .
-sh setup_nginx.sh && make & make install
+sh setup_nginx.sh && make && make install
 cp /data/scripts/tmp/WebServer-master/Nginx/Build/nginx_systemd.sh /lib/systemd/system/nginx.service
 systemctl start nginx
 systemctl enable nginx
+cp /data/webserver/nginx/sbin/nginx /usr/sbin/
 
 
